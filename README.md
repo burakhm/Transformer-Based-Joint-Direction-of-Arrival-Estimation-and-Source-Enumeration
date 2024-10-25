@@ -13,3 +13,12 @@ Install packages using 'pip':
 ```bash
   pip install -r requirements.txt
 ```
+
+## Data Generation
+Generate training and test data for each experiment:
+
+```bash
+  cd scripts
+  generate_data.bat
+  cd ..
+```
