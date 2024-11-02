@@ -57,6 +57,8 @@ if __name__ == "__main__":
                 sensor_pos[:,0] = np.array([1,2,3,6,10,14,16])*0.5
                 sensor_pos_ula = np.zeros((16,3))
                 sensor_pos_ula[:,0] = np.arange(1,17)*0.5
+                sensor_pos_intact = np.zeros((M,3))
+                sensor_pos_intact[:,0] = np.array([1,2,3,6,10,14,16])*0.5
                 
             elif args.scenario == 2: # nested array
                 M = 8
@@ -64,6 +66,8 @@ if __name__ == "__main__":
                 sensor_pos[:,0] = np.array([1,2,3,4,5,6,11,16])*0.5
                 sensor_pos_ula = np.zeros((16,3))
                 sensor_pos_ula[:,0] = np.arange(1,17)*0.5
+                sensor_pos_intact = np.zeros((M,3))
+                sensor_pos_intact[:,0] = np.array([1,2,3,4,5,6,11,16])*0.5
                 
             elif args.scenario == 3: # coprime array
                 M = 8
@@ -71,6 +75,8 @@ if __name__ == "__main__":
                 sensor_pos[:,0] = np.array([1,5,6,9,11,13,16,17])*0.5
                 sensor_pos_ula = np.zeros((17,3))
                 sensor_pos_ula[:,0] = np.arange(1,18)*0.5
+                sensor_pos_intact = np.zeros((M,3))
+                sensor_pos_intact[:,0] = np.array([1,5,6,9,11,13,16,17])*0.5
                 
         elif args.exp == 2: # sensor malfunctions
             if args.mode == "train": # single training data for both scenario
@@ -80,6 +86,8 @@ if __name__ == "__main__":
                 sensor_pos[:,0] = np.sort(sensor_pos[:,0])
                 sensor_pos_ula = np.zeros((16,3))
                 sensor_pos_ula[:,0] = np.arange(1,17)*0.5
+                sensor_pos_intact = np.zeros((8,3))
+                sensor_pos_intact[:,0] = np.array([1,2,3,4,5,6,11,16])*0.5
                 
             elif args.mode == "test":
                 if args.scenario == 1: # intact array
@@ -88,6 +96,8 @@ if __name__ == "__main__":
                     sensor_pos[:,0] = np.array([1,2,3,4,5,6,11,16])*0.5
                     sensor_pos_ula = np.zeros((16,3))
                     sensor_pos_ula[:,0] = np.arange(1,17)*0.5
+                    sensor_pos_intact = np.zeros((M,3))
+                    sensor_pos_intact[:,0] = np.array([1,2,3,4,5,6,11,16])*0.5
                     
                 elif args.scenario == 2: # faulty array
                     M = np.random.randint(low=5, high=8)
@@ -96,6 +106,8 @@ if __name__ == "__main__":
                     sensor_pos[:,0] = np.sort(sensor_pos[:,0])
                     sensor_pos_ula = np.zeros((16,3))
                     sensor_pos_ula[:,0] = np.arange(1,17)*0.5
+                    sensor_pos_intact = np.zeros((M,3))
+                    sensor_pos_intact[:,0] = np.array([1,2,3,4,5,6,11,16])*0.5
         
         elif args.exp == 3: # unknown number of sources
             M = np.random.randint(low=5, high=9)
@@ -104,6 +116,8 @@ if __name__ == "__main__":
             sensor_pos[:,0] = np.sort(sensor_pos[:,0])
             sensor_pos_ula = np.zeros((16,3))
             sensor_pos_ula[:,0] = np.arange(1,17)*0.5 
+            sensor_pos_intact = np.zeros((M,3))
+            sensor_pos_intact[:,0] = np.array([1,2,3,4,5,6,11,16])*0.5
            
         # source signal
         if args.exp == 1 or args.exp == 2: # different sparse array types / sensor malfunctions
@@ -134,7 +148,11 @@ if __name__ == "__main__":
         A_ula = np.exp(-2j*np.pi*(sensor_pos_ula[:,0] * np.cos(np.deg2rad(source_phi)) * np.sin(np.deg2rad(source_the)) + 
                                   sensor_pos_ula[:,1] * np.sin(np.deg2rad(source_phi)) * np.sin(np.deg2rad(source_the)) +
                                   sensor_pos_ula[:,2] * np.cos(np.deg2rad(source_the))
-                                  )).T                   
+                                  )).T      
+        A_intact = np.exp(-2j*np.pi*(sensor_pos_intact[:,0] * np.cos(np.deg2rad(source_phi)) * np.sin(np.deg2rad(source_the)) + 
+                                     sensor_pos_intact[:,1] * np.sin(np.deg2rad(source_phi)) * np.sin(np.deg2rad(source_the)) +
+                                     sensor_pos_intact[:,2] * np.cos(np.deg2rad(source_the))
+                                     )).T
         
         y = A@s + v
 
@@ -142,13 +160,14 @@ if __name__ == "__main__":
         cm = (y@y.conj().T)/y.shape[1]
         cm_true = A @ np.diag(np.full(N,1)) @ A.conj().T
         cm_ula_true = A_ula @ np.diag(np.full(N,1)) @ A_ula.conj().T
+        cm_intact_true = A_intact @ np.diag(np.full(N,1)) @ A_intact.conj().T
         
-        data.append({'signals':y, 'cm':cm, 'cm_true':cm_true, 'cm_ula_true':cm_ula_true, 'label':source_phi, 'sensor_pos':sensor_pos})      
+        data.append({'signals':y, 'cm':cm, 'cm_true':cm_true, 'cm_ula_true':cm_ula_true, 'cm_intact_true':cm_intact_true, 'label':source_phi, 'sensor_pos':sensor_pos})      
 
         
     if args.mode == "train":
         np.save(f"../data/experiment_{args.exp}/scenario_{args.scenario}/data_train.npy", data)
     elif args.mode == "test":
-        np.save(f"../data/experiment_{args.exp}/scenario_{args.scenario}/data_test_snr{snr}_t{T}.npy", data)
+        np.save(f"../data/experiment_{args.exp}/scenario_{args.scenario}/data_test_snr{int(snr)}_t{T}.npy", data)
 
            
