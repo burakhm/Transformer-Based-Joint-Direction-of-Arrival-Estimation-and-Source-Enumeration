@@ -1,11 +1,19 @@
-<h1 align='center'>Transformer Based Joint Direction of Arrival Estimation and Source Enumeration Robust to Sensor Failures in Sparse Linear Arrays</h1>
+<h1 align='center'>
+    Transformer Based Joint Direction of Arrival Estimation and Source Enumeration Robust to Sensor Failures in Sparse Linear Arrays
+</h1>
 
 <div>
-    <p style="text-align:center">Burak Hayati Muslu<sup>1,2</sup>&emsp;Tolga Çiloğlu<sup>1</sup></p>
+    <p align='center'>
+        Burak Hayati Muslu<sup>1,2</sup>&emsp;
+        Tolga Çiloğlu<sup>1</sup>
+    </p>
 </div>
 
 <div>
-    <p style="text-align:center"><sup>1</sup>Dept. of Electrical and Electronics Eng., METU, Ankara, Türkiye <br> <sup>2</sup>Surveillance Radar Systems Engineering Department, ASELSAN, Ankara, Türkiye</p>
+    <p align='center'>
+        <sup>1</sup>Dept. of Electrical and Electronics Eng., METU, Ankara, Türkiye<br>
+        <sup>2</sup>Surveillance Radar Systems Engineering Department, ASELSAN, Ankara, Türkiye
+    </p>
 </div>
 
 
