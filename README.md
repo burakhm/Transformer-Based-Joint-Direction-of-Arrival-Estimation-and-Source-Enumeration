@@ -12,7 +12,7 @@
 <div>
     <p align='center'>
         <sup>1</sup>Dept. of Electrical and Electronics Eng., METU, Ankara, Türkiye<br>
-        <sup>2</sup>Surveillance Radar Systems Engineering Department, ASELSAN, Ankara, Türkiye
+        <sup>2</sup>Radar Systems Engineering Department, ASELSAN, Ankara, Türkiye
     </p>
 </div>
 
